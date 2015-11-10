@@ -3,6 +3,34 @@ angular.module('gameplan.reservation', ['ui.bootstrap'])
 .controller('reservationCtrl', ['$scope', '$filter', '$location', 'reservationFactory', function($scope, $filter, $location, reservationFactory) {
 
   $scope.userListForEmail = [];
+  $scope.address;
+
+  $scope.newMap = function() {
+    var map = new google.maps.Map(document.getElementById('mini-map'), {
+      center: {lat: 37.7833, lng: -122.4167},
+      zoom: 12
+    });
+    var infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.getDetails({
+      placeId: $location.url().split("/")[2]
+        }, function(place, status) {
+          console.log(place)
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          $scope.address = place.formatted_address;
+          console.log($scope.address)
+          map.setCenter(place.geometry.location)
+          var marker = new google.maps.Marker({
+            map: map,
+            position: place.geometry.location
+          });
+          google.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent(place.name);
+            infowindow.open(map, this);
+          });
+        }
+    });
+  }
 
   $scope.today = function() {
     $scope.dt = new Date();

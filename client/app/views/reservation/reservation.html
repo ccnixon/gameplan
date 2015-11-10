@@ -1,7 +1,19 @@
 <div id="reserve-page" class="container">
+    <div class="row">
+      <div id="map-outer" class="col-md-offset-2 col-md-12">
+          <div id="address" class="col-md-3">
+            <h2>Venue Info</h2>
+            <address ng-model="address">
+            <strong>Peggy Guggenheim Collection</strong><br>
+                <span>{{ address }}</span>
+           </address>
+          </div>
+        <div id="mini-map" class="col-md-8"></div>
+      </div><!-- /map-outer -->
+  </div>
   <div class="row">
     <div class="col-md-offset-2 col-md-3">
-      <h3>Chose Your Date</h3>
+      <h3>Choose Your Date</h3>
       <uib-datepicker ng-model="dt" min-date="minDate" show-weeks="false" class="well well-sm" ng-click="loadTimes()"></uib-datepicker>
     </div>
     <div class="col-md-5 col-md-offset-1">
@@ -41,4 +53,11 @@
         <a class="btn actionButton" href='/#/home'>Cancel</a>
     </div>
   </div>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9-ymecHg0I2o_mDvvD39PxNv46yz2Gnc&signed_in=true&libraries=places&callback=init" async defer></script>
+  <script>
+    var init = function(){
+        var scope = $('#mini-map').scope();
+        scope.newMap();
+    }
+  </script>
 </div>
